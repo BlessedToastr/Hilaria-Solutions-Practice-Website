@@ -1,15 +1,3 @@
-<?php
-	if(isset($_FILES['image'])){
-		$errors= array();
-		$file_name = $_FILES['image']['name'];
-		$file_tmp = $_FILES['image']['tmp_name'];
-		$file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
-
-		move_uploaded_file($file_tmp, "uploads/".$file_name);
-		echo "File Uploaded";
-	}
-?>
-
 <head>
     <title>Hilaria Solutions | Admin</title>
     <link rel="stylesheet" href="./css/admin.css">
@@ -17,12 +5,19 @@
 </head>
 
 <body onload="checkLoggedIn()">
-    <form action="" method="POST" enctype="multipart/form-data">
-	<input type="file" name="image" />
-	<input type="submit" />
+  <?php
+    if (isset($_SESSION['message']) && $_SESSION['message'])
+    {
+      printf('<b>%s</b>', $_SESSION['message']);
+      unset($_SESSION['message']);
+    }
+  ?>
+  <form method="POST" action="upload.php" enctype="multipart/form-data">
+    <div>
+      <span>Upload a File:</span>
+      <input type="file" name="uploadedFile" />
+    </div>
 
-	<ul>
-	<li>Sent File: <?php echo $_FILES['image']['name']; ?>
-	<li>File Size: <?php echo $_FILES['image']['size']; ?>
-	</ul>
+    <input type="submit" name="uploadBtn" value="Upload" />
+  </form>
 </body>
